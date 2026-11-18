@@ -24,7 +24,6 @@ void cadastrarNotebook() {
     Notebook notebook;
 
     cout << "\n========== CADASTRO DE NOTEBOOK ==========";
-
     cout << "\nDigite o codigo: ";
     cin >> notebook.codigo;
 
@@ -34,32 +33,22 @@ void cadastrarNotebook() {
     }
 
     cin.ignore();
-
     cout << "Digite a marca: ";
     cin.getline(notebook.marca, 30);
-
     cout << "Digite o modelo: ";
     cin.getline(notebook.modelo, 40);
-
     cout << "Digite o processador: ";
     cin.getline(notebook.processador, 40);
-
     cout << "Digite a memoria RAM (GB): ";
     cin >> notebook.memoriaRAM;
-
     cin.ignore();
-
     cout << "Digite o armazenamento: ";
     cin.getline(notebook.armazenamento, 30);
-
     cout << "Digite o preco: ";
     cin >> notebook.preco;
-
     cout << "Digite a quantidade: ";
     cin >> notebook.quantidade;
-
     notebook.status = 1;
-
     arquivo = fopen("estoque.dat", "ab");
 
     if (arquivo == NULL) {
@@ -68,9 +57,7 @@ void cadastrarNotebook() {
     }
 
     fwrite(&notebook, sizeof(Notebook), 1, arquivo);
-
     fclose(arquivo);
-
     cout << "\nNotebook cadastrado com sucesso!";
 }
 
@@ -83,7 +70,6 @@ void consultarNotebook() {
 
     cout << "\nDigite o codigo do notebook: ";
     cin >> codigo;
-
     arquivo = fopen("estoque.dat", "rb");
 
     if (arquivo == NULL) {
@@ -92,9 +78,7 @@ void consultarNotebook() {
     }
 
     while (fread(&notebook, sizeof(Notebook), 1, arquivo) == 1) {
-
         if (notebook.codigo == codigo && notebook.status == 1) {
-
             cout << "\n====== NOTEBOOK ENCONTRADO ======";
             cout << "\nCodigo: " << notebook.codigo;
             cout << "\nMarca: " << notebook.marca;
@@ -104,7 +88,6 @@ void consultarNotebook() {
             cout << "\nArmazenamento: " << notebook.armazenamento;
             cout << "\nPreco: R$ " << notebook.preco;
             cout << "\nQuantidade: " << notebook.quantidade;
-
             encontrado = true;
             break;
         }
@@ -133,9 +116,7 @@ void listarNotebooks() {
     cout << "\n======= NOTEBOOKS CADASTRADOS =======";
 
     while (fread(&notebook, sizeof(Notebook), 1, arquivo) == 1) {
-
         if (notebook.status == 1) {
-
             cout << "\n\nCodigo: " << notebook.codigo;
             cout << "\nMarca: " << notebook.marca;
             cout << "\nModelo: " << notebook.modelo;
@@ -144,9 +125,7 @@ void listarNotebooks() {
             cout << "\nArmazenamento: " << notebook.armazenamento;
             cout << "\nPreco: R$ " << notebook.preco;
             cout << "\nQuantidade: " << notebook.quantidade;
-
             cout << "\n-----------------------------------";
-
             contador++;
         }
     }
@@ -168,7 +147,6 @@ void excluirNotebook() {
 
     cout << "\nDigite o codigo do notebook que deseja excluir: ";
     cin >> codigo;
-
     arquivo = fopen("estoque.dat", "rb+");
 
     if (arquivo == NULL) {
@@ -179,19 +157,13 @@ void excluirNotebook() {
     while (true) {
 
         posicao = ftell(arquivo);
-
         if (fread(&notebook, sizeof(Notebook), 1, arquivo) != 1) {
             break;
         }
-
         if (notebook.codigo == codigo && notebook.status == 1) {
-
             notebook.status = 0;
-
             fseek(arquivo, posicao, SEEK_SET);
-
             fwrite(&notebook, sizeof(Notebook), 1, arquivo);
-
             encontrado = true;
             break;
         }
@@ -222,7 +194,7 @@ void exportarTXT() {
     }
 
     arquivoTXT = fopen("estoque.txt", "w");
-
+    
     if (arquivoTXT == NULL) {
         cout << "\nErro ao criar arquivo TXT!";
         fclose(arquivoBinario);
@@ -232,9 +204,7 @@ void exportarTXT() {
     fprintf(arquivoTXT, "========== ESTOQUE DE NOTEBOOKS ==========\n\n");
 
     while (fread(&notebook, sizeof(Notebook), 1, arquivoBinario) == 1) {
-
         if (notebook.status == 1) {
-
             fprintf(arquivoTXT, "Codigo: %d\n", notebook.codigo);
             fprintf(arquivoTXT, "Marca: %s\n", notebook.marca);
             fprintf(arquivoTXT, "Modelo: %s\n", notebook.modelo);
@@ -243,9 +213,7 @@ void exportarTXT() {
             fprintf(arquivoTXT, "Armazenamento: %s\n", notebook.armazenamento);
             fprintf(arquivoTXT, "Preco: R$ %.2f\n", notebook.preco);
             fprintf(arquivoTXT, "Quantidade: %d\n", notebook.quantidade);
-
             fprintf(arquivoTXT, "\n------------------------------------------\n\n");
-
             contador++;
         }
     }
@@ -253,10 +221,8 @@ void exportarTXT() {
     if (contador == 0) {
         fprintf(arquivoTXT, "Nenhum notebook ativo cadastrado.\n");
     }
-
     fclose(arquivoBinario);
     fclose(arquivoTXT);
-
     cout << "\nEstoque exportado com sucesso!";
     cout << "\nQuantidade de notebooks exportados: " << contador;
 }
@@ -267,25 +233,20 @@ void contabilizarNotebooks() {
     Notebook notebook;
     int ativos = 0;
     int totalRegistros = 0;
-
     arquivo = fopen("estoque.dat", "rb");
-
     if (arquivo == NULL) {
         cout << "\nNenhum notebook cadastrado!";
         return;
     }
 
     while (fread(&notebook, sizeof(Notebook), 1, arquivo) == 1) {
-
         totalRegistros++;
-
         if (notebook.status == 1) {
             ativos++;
         }
     }
 
     fclose(arquivo);
-
     cout << "\n======= CONTROLE DE ESTOQUE =======";
     cout << "\nTotal de registros armazenados: " << totalRegistros;
     cout << "\nTotal de notebooks ativos: " << ativos;
@@ -319,7 +280,6 @@ bool codigoExiste(int codigo) {
 int main() {
 
     int opcao;
-
     do {
         cout << endl;
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
@@ -335,7 +295,6 @@ int main() {
         cout << "\n0 - Sair";
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
         cout << "\nEscolha uma opcao: ";
-
         cin >> opcao;
 
         switch (opcao) {
@@ -371,7 +330,6 @@ int main() {
             default:
                 cout << "\nOpcao invalida!";
         }
-
     } while (opcao != 0);
 
     return 0;
