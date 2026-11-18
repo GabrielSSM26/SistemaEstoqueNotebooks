@@ -40,4 +40,4 @@ também permite exportar as informações para um arquivo TXT.
 ## Autor
 
 Gabriel Soares Savioli Macedo -
-Projeto acadêmico desenvolvido para a disciplina de programação.
+Projeto acadêmico desenvolvido para a disciplina de Laboratório de Programação Estruturada.
